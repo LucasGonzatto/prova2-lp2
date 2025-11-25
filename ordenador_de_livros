@@ -1,0 +1,23 @@
+def ler_recomendados(arquivo):
+    livros = []
+    with open(arquivo, "r", encoding="utf-8") as f:
+        for linha in f:
+            partes = [p.strip() for p in linha.split(",")]
+            if len(partes) == 5:
+                ano, titulo, autor, nota, status = partes
+                try:
+                    nota = float(nota)
+                    livros.append((ano, titulo, autor, nota, status))
+                except ValueError:
+                    pass
+    return livros
+def ordenar_por_nota_maior(livros):
+    return sorted(livros, key=lambda x: x[3], reverse=True)
+def main():
+    livros = ler_recomendados("livros_recomendados.txt")
+    livros_ordenados = ordenar_por_nota_maior(livros)
+    print("\n--- LIVROS RECOMENDADOS (ORDENADOS POR NOTA) ---\n")
+    for ano, titulo, autor, nota, status in livros_ordenados:
+        print(f"{titulo} ({ano}) - {autor} | Nota: {nota} | Status: {status}")
+if __name__ == "__main__":
+    main()
